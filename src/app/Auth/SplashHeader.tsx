@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
+import { useConnect } from "wagmi";
 
 import { AiFillForward } from "react-icons/ai";
 import InputField from "../components/Molecules/InputField";

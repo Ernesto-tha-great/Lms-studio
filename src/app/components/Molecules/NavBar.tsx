@@ -1,5 +1,6 @@
 import React from "react";
 import { AppButton } from "../Atoms/AppButton";
+import WagmiConnect from "@/app/Auth/WagmiConnect";
 
 const NavBar = () => {
   return (
@@ -12,7 +13,8 @@ const NavBar = () => {
       </div>
 
       <div>
-        <AppButton title="Connect Wallet" />
+        {/* <AppButton title="Connect Wallet" /> */}
+        <WagmiConnect />
       </div>
     </div>
   );
