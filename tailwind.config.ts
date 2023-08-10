@@ -31,7 +31,6 @@ const config: Config = {
         lotus: "#FFA3EB",
         lavender: "#B490FF",
       },
-
       fontFamily: {
         noto: ["Futura", "sans-serif"],
       },
