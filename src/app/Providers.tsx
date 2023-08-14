@@ -12,18 +12,10 @@ import {
   ledgerWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import {
-  mainnet,
-  polygon,
-  optimism,
-  arbitrum,
-  zora,
-  goerli,
-  sepolia,
-} from "wagmi/chains";
+import { mainnet, sepolia } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { alchemyProvider } from "wagmi/providers/alchemy";
-import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
+
 require("dotenv").config();
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
@@ -48,6 +40,7 @@ const demoAppInfo = {
 
 const connectors = connectorsForWallets([
   ...wallets,
+
   {
     groupName: "Other",
     wallets: [
