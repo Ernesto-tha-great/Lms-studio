@@ -38,7 +38,7 @@ const SplashHeader = () => {
 
   const signup = async () => {};
   return (
-    <div className="flex items-center justify-between mx-10 mt-24">
+    <div className="flex items-center justify-around mx-10 mt-24">
       <div className="bg-gypsum border-2 rounded-lg p-16 my-4">
         {hasWallet === HasWallet.Yes ? (
           <div className=" flex flex-col items-center">
@@ -119,10 +119,16 @@ const SplashHeader = () => {
               >
                 Login
               </button>
+
+              <div
+                onClick={() => {
+                  setHasWallet(HasWallet.Yes);
+                }}
+              >
+                Connect with wallet instead{" "}
+              </div>
             </div>
-            {/* {error && (
-                <div className="mt-4 text-red-500 text-sm">{error}</div>
-              )} */}
+            {error && <div className="mt-4 text-red-500 text-sm">{error}</div>}
           </>
         )}
       </div>
