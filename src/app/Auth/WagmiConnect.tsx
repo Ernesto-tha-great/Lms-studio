@@ -1,19 +1,19 @@
 "use client";
 import React from "react";
-import { useConnect } from "wagmi";
+
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const WagmiConnect = () => {
-  const { connect, connectors, error, isLoading, pendingConnector } =
-    useConnect();
   return (
-    <div className="bg-red-400 text-black">
-      {connectors.map((connector) => (
+    <div className="">
+      {/* {connectors.map((connector) => (
         <button
           disabled={!connector.ready}
+          className="bg-blue-500 p-2 rounded-lg"
           key={connector.id}
           onClick={() => connect({ connector })}
         >
-          {connector.name}
+          Connect Wallet
           {!connector.ready && " (unsupported)"}
           {isLoading &&
             connector.id === pendingConnector?.id &&
@@ -21,7 +21,8 @@ const WagmiConnect = () => {
         </button>
       ))}
 
-      {error && <div>{error.message}</div>}
+      {error && <div>{error.message}</div>} */}
+      <ConnectButton />
     </div>
   );
 };
