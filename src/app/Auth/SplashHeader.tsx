@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
 import { useConnect } from "wagmi";
+import Link from "next/link";
 
 import { AiFillForward } from "react-icons/ai";
 import InputField from "../components/Molecules/InputField";
@@ -113,12 +114,12 @@ const SplashHeader = () => {
               <h3 className="text-xl font-medium">
                 If you already have an account{" "}
               </h3>
-              <button
-                className=" border-2 p-2 border-black rounded-xl  text-black button-full hover:cursor-pointer hover:bg-blue-500 hover:text-white hover:border-0"
-                onClick={() => router.push("/Login")}
-              >
-                Login
-              </button>
+
+              <Link href="/landingPage">
+                <button className=" border-2 p-2 border-black rounded-xl  text-black button-full hover:cursor-pointer hover:bg-blue-500 hover:text-white hover:border-0">
+                  Login
+                </button>
+              </Link>
 
               <div
                 onClick={() => {
