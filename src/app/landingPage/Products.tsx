@@ -1,7 +1,14 @@
 import React from "react";
+import LandingBanner from "../components/Organisms/LandingBanner";
+import Exhibition from "../components/Organisms/Exhibition";
 
 const Products = () => {
-  return <div>Products</div>;
+  return (
+    <section className="text-black">
+      <LandingBanner />
+      <Exhibition />
+    </section>
+  );
 };
 
 export default Products;
