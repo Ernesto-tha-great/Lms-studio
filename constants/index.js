@@ -68,3 +68,69 @@ export const data2 = [
     image: "/AppImages/landing14.jpg",
   },
 ];
+
+export const data3 = [
+  {
+    id: 1,
+    img: "/AppImages/landing3.svg",
+    title: "Week One",
+    description:
+      "Introduction to ChainSafe. Learn about interoperability of blockchains, phala network and the amazing account abstraction",
+  },
+  {
+    id: 2,
+    img: "/AppImages/landing2.svg",
+    title: "Create Courses",
+    description:
+      "Create courses with our easy to use course builder. Add videos, images, text, and more. ",
+  },
+  {
+    id: 3,
+    img: "/AppImages/landing4.jpg",
+    title: "Create Courses",
+    description:
+      "Create courses with our easy to use course builder. Add videos, images, text, and more. ",
+  },
+  {
+    id: 4,
+    img: "/AppImages/landing6.svg",
+    title: "Create Courses",
+    description:
+      "Create courses with our easy to use course builder. Add videos, images, text, and more. ",
+  },
+  {
+    id: 5,
+    img: "/AppImages/landing7.svg",
+    title: "Create Courses",
+    description:
+      "Create courses with our easy to use course builder. Add videos, images, text, and more. ",
+  },
+  {
+    id: 6,
+    img: "/AppImages/landing5.svg",
+    title: "Create Courses",
+    description:
+      "Create courses with our easy to use course builder. Add videos, images, text, and more. ",
+  },
+  {
+    id: 7,
+    img: "/AppImages/landing6.svg",
+    title: "Create Courses",
+    description:
+      "Create courses with our easy to use course builder. Add videos, images, text, and more. ",
+  },
+  {
+    id: 7,
+    img: "/AppImages/landing7.svg",
+    title: "Create Courses",
+    description:
+      "Create courses with our easy to use course builder. Add videos, images, text, and more. ",
+  },
+  {
+    id: 8,
+    img: "/AppImages/landing4.jpg",
+    title: "Create Courses",
+    description:
+      "Create courses with our easy to use course builder. Add videos, images, text, and more. ",
+  },
+];
