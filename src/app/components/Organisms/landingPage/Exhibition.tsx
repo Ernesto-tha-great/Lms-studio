@@ -1,6 +1,6 @@
 import React from "react";
-import ExhibitionCard from "../Molecules/ExhibitionCard";
-import { data1 } from "../../../../constants";
+import ExhibitionCard from "../../Molecules/landingPage/ExhibitionCard";
+import { data1 } from "../../../../../constants";
 
 const Exhibition = () => {
   return (

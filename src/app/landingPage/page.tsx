@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "../components/Molecules/NavBar";
+import NavBar from "../components/Molecules/landingPage/NavBar";
 import Header from "./Header";
 import Products from "./Products";
 

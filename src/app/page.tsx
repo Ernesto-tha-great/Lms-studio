@@ -1,6 +1,6 @@
 import Image from "next/image";
 import SignUp from "./Auth/SignUp";
-import Footer from "./components/Molecules/Footer";
+import Footer from "./components/Molecules/landingPage/Footer";
 
 export default function Home() {
   return (

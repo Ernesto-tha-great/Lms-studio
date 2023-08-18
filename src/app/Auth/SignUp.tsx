@@ -1,8 +1,8 @@
 import React from "react";
-import NavBar from "../components/Molecules/NavBar";
+import NavBar from "../components/Molecules/landingPage/NavBar";
 import Image from "next/image";
 import SplashHeader from "./SplashHeader";
-import Footer from "../components/Molecules/Footer";
+import Footer from "../components/Molecules/landingPage/Footer";
 
 const SignUp = () => {
   return (
