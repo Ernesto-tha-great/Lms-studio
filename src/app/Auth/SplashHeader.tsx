@@ -7,7 +7,7 @@ import { useConnect } from "wagmi";
 import Link from "next/link";
 
 import { AiFillForward } from "react-icons/ai";
-import InputField from "../components/Molecules/InputField";
+import InputField from "../components/Molecules/landingPage/InputField";
 import Loading from "../components/Atoms/Loading";
 
 enum HasWallet {

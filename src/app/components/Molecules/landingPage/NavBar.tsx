@@ -1,5 +1,5 @@
 import React from "react";
-import { AppButton } from "../Atoms/AppButton";
+import { AppButton } from "../../Atoms/AppButton";
 import WagmiConnect from "@/app/Auth/WagmiConnect";
 
 const NavBar = () => {
