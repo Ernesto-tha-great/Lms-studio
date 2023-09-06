@@ -1,6 +1,6 @@
 import React from "react";
 import DiscoverItem from "../../Molecules/landingPage/DiscoverItem";
-import { data2 } from "../../../../../constants";
+import { data2 } from "../../../../constants";
 
 const Discover = () => {
   return (
