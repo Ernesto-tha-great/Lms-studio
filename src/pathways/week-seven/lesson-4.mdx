@@ -1,0 +1,212 @@
+---
+title: SubGraphs
+description: Building a payment subscription dapp on Celo.
+lesson: "4"
+restriction: "YesDialog"
+publishedAt: "2023-02-01"
+---
+
+## Part Four
+
+<iframe
+  width="850"
+  height="400"
+  src="https://www.youtube.com/embed/5kBOtaRCxBs"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen
+></iframe>
+
+&nbsp;
+
+Congrats on reaching this section! You've learned about smart contracts, UI with Nextjs and Tailwind, testing, a contract verification in the past three lessons.
+In this lesson, we will provide step-by-step instructions on how to Connect UI to Smart Contract & Setup Defender
+Admin, Replay & Autotask. This will help you better understand the process.
+
+### Prerequisites
+
+- [Create](https://thegraph.com/en/) an account on the subgraph
+- Click on sign in with GitHub
+- Install the graph globally on your local machine using npm. In your terminal run
+
+### Step 1
+
+To begin, paste the following code in your index.tx file
+
+```javascript
+import React, { useEffect, useState } from "react";
+import PaymentCard from "../components/PaymentCard";
+import {
+  abi as psAbi,
+  address as psAddress,
+} from "@ebook-payment-subscription-platform/hardhat/deployments/alfajores/PaymentSubscription.json";
+import { useCelo } from "@celo/react-celo";
+import { parseEther } from "ethers/lib/utils.js";
+
+const plans = {
+  0: { name: "Basic", price: 2 },
+  1: { name: "Premium", price: 5 },
+  2: { name: "Enterprise", price: 12 },
+};
+
+export default function Home() {
+  const subscriptionToken = "0xEb3345B25d59Ad1dD153DAf883b377258E8515F9";
+  const [activePlan, setActivePlan] = useState(null);
+  const { kit, address } = useCelo();
+  const paymentSubscriptionContract = new kit.connection.web3.eth.Contract(
+    psAbi,
+    psAddress
+  );
+  const cUsdContract = new kit.connection.web3.eth.Contract(
+    [
+      {
+        inputs: [
+          {
+            internalType: "address",
+            name: "spender",
+            type: "address",
+          },
+          {
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+        ],
+        name: "approve",
+        outputs: [
+          {
+            internalType: "bool",
+            name: "",
+            type: "bool",
+          },
+        ],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ],
+    subscriptionToken
+  );
+
+  const subscribeToPlan = async (plan) => {
+    try {
+      const tx = await cUsdContract.methods
+        .approve(
+          psAddress,
+          parseEther((plans[plan].price * 12).toString()).toHexString()
+        )
+        .send({ from: address });
+
+      if (tx.status) {
+        const tx = await paymentSubscriptionContract.methods
+          .subscribe(plan, 12)
+          .send({ from: address });
+
+        if (tx.status) {
+          setActivePlan(plan);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const getActivePlan = async () => {
+      const plan = await paymentSubscriptionContract.methods
+        .subscriptions(address)
+        .call();
+
+      if (plan.endDate !== "0") {
+        setActivePlan(parseInt(plan.plan));
+      }
+    };
+
+    getActivePlan();
+  }, [address]);
+
+  return (
+    <div className="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
+      <div className="flex">
+        <PaymentCard
+          planName={"Basic"}
+          active={activePlan == 0}
+          price={2}
+          onClick={() => subscribeToPlan(0)}
+        />
+      </div>
+      <div className="flex">
+        <PaymentCard
+          planName={"Premium"}
+          active={activePlan == 1}
+          price={5}
+          onClick={() => subscribeToPlan(1)}
+        />
+      </div>
+      <div className="flex">
+        <PaymentCard
+          planName={"Enterprise"}
+          active={activePlan == 2}
+          price={12}
+          onClick={() => subscribeToPlan(2)}
+        />
+      </div>
+    </div>
+  );
+}
+```
+
+Import the mock cUSD token we created with its contract address
+
+![](https://user-images.githubusercontent.com/52764879/223789773-9f8298fb-15d5-469b-94db-8e76dd52208d.png)
+
+To test the UI , in your terminal run
+
+```bash
+yarn run dev
+
+```
+
+and click on subscribe, your metamask should pop up and you should see the output below
+
+![](https://user-images.githubusercontent.com/52764879/223791237-ab018d43-097a-4f82-8ebb-33f2bd34ea6d.png)
+
+Sign the transaction and once succesfully executed, the subscribe button should change to unsubscribe.
+
+Verify your contract on celoscan and you should see your transaction.
+
+![](https://user-images.githubusercontent.com/52764879/223791788-e26a0c3f-398f-4c74-b609-b2a816bf8a48.png)
+
+### Step 2
+
+Head over to openzepplin, click on defender and sign up. Then click on add a contract
+
+- name : EbookSPP
+- network : celo alfajores
+- address : "your contract address"
+
+NOTE: it might throw an error saying "unable to fetch abi" , copy and paste the contract abi and click on create
+
+### Step 3
+
+Next we create a relay. A relay is like a private key that helps in creating a wallet that can be used like a
+relayer to interact with the smart contract. You can read more on relayer
+[here](https://docs.openzeppelin.com/defender/relay).
+
+To create a relayer follow these steps below:
+
+- click on relayer on the side bar
+- name : Ebook Relayer SPP
+- network : Celo alfajores
+
+then click on create.
+send some celo to your relayer from your wallet.
+
+### Step 4
+
+Transfer the ownership of the contract to the relayer, i will strongly advice that you watch the video tutorial
+link that would be attached at the end of the article from this step because it is easier to graps and understand.
+
+![](https://user-images.githubusercontent.com/52764879/223862790-d1838654-57e5-4b72-a522-f7c57ee0c8d9.png)
+
+Thank you for making it through from the first part to the final part.
