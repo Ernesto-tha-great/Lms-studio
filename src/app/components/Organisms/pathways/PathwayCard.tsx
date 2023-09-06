@@ -9,7 +9,7 @@ interface Props {
 
 const PathwayCard: React.FC<Props> = ({ image, title, description }: Props) => {
   return (
-    <div className="flex flex-col border-4 border-gray-600 max-w-md mx-4 gap-4 my-4 rounded-xl transition hover:border-red-700 hover:scale-105 hover:translate-x-4 delay-300">
+    <div className="flex flex-col border-2 border-gray-600 max-w-md mx-4 gap-4 my-4 rounded-xl transition hover:border-red-700  delay-300">
       <div className="h-1/2 mb-8">
         <Image
           src={image}
