@@ -6,21 +6,22 @@ import { data3 } from "../../../constants";
 
 const Page = () => {
   return (
-    <main className="flex min-h-screen text-black flex-col bg-white">
+    <>
       <NavBar />
-      <div className="grid grid-cols-2 ">
-        {data3.map((item) => (
-          <PathwayCard
-            key={item.id}
-            description={item.description}
-            title={item.title}
-            image={item.img}
-          />
-        ))}
-      </div>
-
+      <section className="flex w-full  text-black flex-col items-center bg-white">
+        <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2   ">
+          {data3.map((item) => (
+            <PathwayCard
+              key={item.id}
+              description={item.description}
+              title={item.title}
+              image={item.img}
+            />
+          ))}
+        </div>
+      </section>
       <Footer />
-    </main>
+    </>
   );
 };
 
