@@ -38,6 +38,47 @@ export async function getPathwayFromSlug(pathwaySlug: string, slug: string) {
   };
 }
 
+export const getAllData = async (pathwaySlug: string) => {
+  const pathwayDir = path.join(process.cwd(), "src", "pathways", pathwaySlug);
+
+  try {
+    const lessons = fs.readdirSync(pathwayDir);
+    console.log(lessons);
+
+    return lessons.reduce<any[]>(
+      (allLessons: string[] | any, lessonSlug: string) => {
+        try {
+          // Get parsed data from MDX files in the pathway directory
+          const source = fs.readFileSync(
+            path.join(pathwayDir, lessonSlug),
+            "utf-8"
+          );
+          const { data } = matter(source);
+
+          const lessonData = {
+            ...data,
+            slug: lessonSlug.replace(".mdx", ""),
+            title: data.title,
+            lesson: data.lesson,
+            description: data.description,
+            restriction: data.restriction,
+            readingTime: readingTime(source).text,
+          };
+
+          return [...allLessons, lessonData];
+        } catch (err) {
+          console.error(`Error reading lesson ${lessonSlug}:`, err);
+          return allLessons; // Skip the lesson and continue with the rest
+        }
+      },
+      []
+    );
+  } catch (err) {
+    console.error(`Error reading pathway directory ${pathwaySlug}:`, err);
+    return []; // Return an empty array in case of directory read error
+  }
+};
+
 export const components = {
   h2: (props: JSX.IntrinsicAttributes) => <h2 className="" {...props} />,
   pre: (props: JSX.IntrinsicAttributes) => <pre data-line {...props} />,

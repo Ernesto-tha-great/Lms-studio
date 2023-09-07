@@ -9,6 +9,8 @@ import { pathways } from "../../../../constants";
 import Img, { StaticImageData } from "next/image";
 import { useRouter, useParams } from "next/navigation"; // Use next/router instead of next/navigation
 import React, { useEffect, useState } from "react";
+import LessonItem from "@/components/Organisms/pathways/LessonItem";
+import { getAllData } from "@/utils/mdx";
 
 interface Props {
   pathway: {
@@ -50,17 +52,16 @@ const Page = ({ allLessons, pathway }: Props) => {
           return;
         }
 
-        const lessons = await getAllPathways(slug);
+        // const lessons = await getAllPathways(slug);
 
-        // Sort the lessons by converting lesson to a number
-        lessons.sort((a, b) => Number(a.lesson) - Number(b.lesson));
+        // // Sort the lessons by converting lesson to a number
+        // lessons.sort((a, b) => Number(a.lesson) - Number(b.lesson));
 
         const item = pathways.find((data) => data.key === slug);
 
         if (item) {
           // Update state with the data
           setPathway(item);
-          setAllLessons(lessons);
         }
       } catch (err) {
         console.error(err);
@@ -71,10 +72,11 @@ const Page = ({ allLessons, pathway }: Props) => {
     };
 
     getData();
+    // getAllData(slug, setAllLessons);
   }, [slug]);
 
   const [pathwayData, setPathway] = useState<Props["pathway"] | any>(null);
-  const [allLessonsData, setAllLessons] = useState<Props["allLessons"] | []>(
+  const [allLessonsData, setAllLessons] = useState<Props["allLessons"] | any>(
     []
   );
 
@@ -84,74 +86,91 @@ const Page = ({ allLessons, pathway }: Props) => {
   }
 
   console.log(pathwayData);
+  // console.log(allLessonsData);
 
   return (
-    <>
+    <div className="flex flex-col h-screen bg-white text-black">
       <NavBar />
       {pathwayData && (
-        <section className="flex w-full h-screen text-black bg-white">
-          <div className="rounded-3xl p-10 font-noto bg-gypsum flex flex-row flex-nowrap items-center">
-            <div className="flex flex-col w-2/3 pr-8">
-              <h1 className="text-3xl font-bold">{pathwayData.name}</h1>
-              <h4 className="text-base mt-2">{pathwayData.desc}</h4>
-              <div className="h-16 mt-5">
-                <button className="button" onClick={() => {}}>
+        <>
+          <section className="flex w-full items-center">
+            <div className="flex items-center rounded-3xl gap-6 p-10 font-noto bg-gypsum flex-nowrap ">
+              <div className="flex flex-col items-start gap-3 w-2/3 ">
+                <h1 className="text-3xl font-bold">{pathwayData.name}</h1>
+                <h4 className="text-base mt-2">{pathwayData.desc}</h4>
+
+                <button
+                  className="py-2 px-4 border-2 my-6 rounded-xl text-black"
+                  onClick={() => {}}
+                >
                   Start Pathway
                 </button>
               </div>
+
+              <div className="flex flex-col w-1/3">
+                <Img
+                  src={pathwayData.image}
+                  className="rounded-2xl"
+                  alt="Flutter Pathway - Celo Academy"
+                  width={500}
+                  height={500}
+                />
+              </div>
             </div>
-            <div className="flex flex-col w-1/3">
-              <Img
-                src={pathwayData.image}
-                className="rounded-2xl"
-                alt="Flutter Pathway - Celo Academy"
-                width={500}
-                height={500}
-              />
-            </div>
-          </div>
-        </section>
+          </section>
+
+          <LessonItem />
+
+          {allLessonsData.length > 0 && (
+            <section>
+              {/* {allLessonsData.map((lesson: any) => (
+                <LessonItem />
+              ))} */}
+              <LessonItem />
+            </section>
+          )}
+        </>
       )}
       <Footer />
-    </>
+    </div>
   );
 };
 
 export default Page;
 
-export async function getAllPathways(pathwaySlug: string) {
-  const pathwayDir = path.join(process.cwd(), "pathways", pathwaySlug);
+// export async function getAllPathways(pathwaySlug: string) {
+//   const pathwayDir = path.join(process.cwd(), "src", "pathways", pathwaySlug);
 
-  try {
-    const lessons = fs.readdirSync(pathwayDir);
+//   try {
+//     const lessons = fs.readdirSync(pathwayDir);
 
-    return lessons.reduce<any[]>((allLessons: string[], lessonSlug: string) => {
-      try {
-        // Get parsed data from MDX files in the pathway directory
-        const source = fs.readFileSync(
-          path.join(pathwayDir, lessonSlug),
-          "utf-8"
-        );
-        const { data } = matter(source);
+//     return lessons.reduce<any[]>((allLessons: string[], lessonSlug: string) => {
+//       try {
+//         // Get parsed data from MDX files in the pathway directory
+//         const source = fs.readFileSync(
+//           path.join(pathwayDir, lessonSlug),
+//           "utf-8"
+//         );
+//         const { data } = matter(source);
 
-        const lessonData = {
-          ...data,
-          slug: lessonSlug.replace(".mdx", ""),
-          title: data.title,
-          lesson: data.lesson,
-          description: data.description,
-          restriction: data.restriction,
-          readingTime: readingTime(source).text,
-        };
+//         const lessonData = {
+//           ...data,
+//           slug: lessonSlug.replace(".mdx", ""),
+//           title: data.title,
+//           lesson: data.lesson,
+//           description: data.description,
+//           restriction: data.restriction,
+//           readingTime: readingTime(source).text,
+//         };
 
-        return [...allLessons, lessonData];
-      } catch (err) {
-        console.error(`Error reading lesson ${lessonSlug}:`, err);
-        return allLessons; // Skip the lesson and continue with the rest
-      }
-    }, []);
-  } catch (err) {
-    console.error(`Error reading pathway directory ${pathwaySlug}:`, err);
-    return []; // Return an empty array in case of directory read error
-  }
-}
+//         return [...allLessons, lessonData];
+//       } catch (err) {
+//         console.error(`Error reading lesson ${lessonSlug}:`, err);
+//         return allLessons; // Skip the lesson and continue with the rest
+//       }
+//     }, []);
+//   } catch (err) {
+//     console.error(`Error reading pathway directory ${pathwaySlug}:`, err);
+//     return []; // Return an empty array in case of directory read error
+//   }
+// }
